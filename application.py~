@@ -6,11 +6,8 @@ Author: Scott Rodkey - rodkeyscott@gmail.com
 
 Step-by-step tutorial: https://medium.com/@rodkey/deploying-a-flask-application-on-aws-a72daba6bb80
 '''
-import datetime
-import csv
-import random
-import time
-from flask import Flask, session, redirect, url_for, escape, request, render_template, Response
+
+from flask import Flask, render_template, request
 from application import db
 #from application.models import Data
 #from application.forms import EnterDBInfo, RetrieveDBInfo
