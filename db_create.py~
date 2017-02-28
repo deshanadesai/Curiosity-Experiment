@@ -1,5 +1,5 @@
 from application import db
-from application.models import students
+from application.application import students
 
 db.create_all()
 

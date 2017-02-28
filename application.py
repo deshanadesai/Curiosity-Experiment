@@ -12,8 +12,8 @@ import random
 import time
 from flask import Flask, session, redirect, url_for, escape, request, render_template, Response
 from application import db
-#from application.models import Data
-#from application.forms import EnterDBInfo, RetrieveDBInfo
+# from application.models import Data
+# from application.forms import EnterDBInfo, RetrieveDBInfo
 
 # Elastic Beanstalk initalization
 application = Flask(__name__)
@@ -21,9 +21,53 @@ application.debug=True
 # change this to your own value
 application.secret_key = 'cC1YCIWOj9GgWspgNEo2'   
 
+class profiles(db.Model):
+	number_code = db.Column('number_code',db.Integer, primary_key=True)
+	group = db.Column(db.Integer)
+	timestamp = db.Column(db.TIMESTAMP)
+	age = db.Column(db.Integer)
+	gender = db.Column(db.String(1))
+	language = db.Column(db.String(50))
+	english = db.Column(db.Integer)
+	grade = db.Column(db.String(10))
+	background = db.Column(db.String(10))
+	medium = db.Column(db.String(10))
+	phone = db.Column(db.String(10))
+	q1 = db.Column(db.Integer)
+	q2 = db.Column(db.Integer)
+	q3 = db.Column(db.Integer)
+	q4 = db.Column(db.Integer)
+	q5 = db.Column(db.Integer)
+	q6 = db.Column(db.Integer)
+	q7 = db.Column(db.Integer)
+
+	def __init__(self,number_code,group,age,gender,language,english,grade,background,medium,phone,q1,q2,q3,q4,q5,q6,q7):
+		self.timestamp = datetime.datetime.now()
+		self.number_code = number_code
+		self.group = group
+		self.age = age
+		self.gender = gender
+		self.language = language
+		self.english = english
+		self.grade = grade
+		self.background = background
+		self.medium = medium
+		self.phone = phone
+		self.q1 = q1
+		self.q2 = q2
+		self.q3 = q3
+		self.q4 = q4
+		self.q5 = q5
+		self.q6 = q6
+		self.q7 = q7
+
+	def __repr__(self):
+		return '<User %r>' % self.number_code
+
+
 class students(db.Model):
     record_num = db.Column('record_number', db.TIMESTAMP, primary_key = True)
-    uid = db.Column(db.Integer)
+    uid = db.Column(db.Integer, primary_key = True)
     question_number = db.Column(db.Integer)
     group = db.Column(db.Integer)
     curiosity_rating = db.Column(db.Integer)  
@@ -56,6 +100,7 @@ class students(db.Model):
     def __repr__(self):
         return '<User %r>' % self.record_num
 
+
 # GLOBAL VARIABLE INITIALIZATION
 
 f=open('questions.csv','rb')
@@ -77,6 +122,42 @@ def index():
     if 'username' in session:
         return redirect(url_for('page1'))
     return render_template('login.html')
+
+@application.route('/signup', methods=['GET', 'POST'])
+def signup():
+	return render_template('signup.html')
+
+@application.route('/consent', methods=['GET', 'POST'])
+def consent():
+	if request.method == 'POST':
+		return redirect(url_for('index'))
+	return render_template('consent.html')
+
+@application.route('/store_profile', methods=['GET', 'POST'])
+def store_profile():
+	if request.method == 'POST':
+		numbercode = request.form['code']
+		group = request.form['group']
+		age = request.form['age']
+		gender = request.form['gender']
+		language = request.form['language']
+		english = request.form['eng']
+		grade = request.form['grade']
+		background = request.form['background']
+		medium = request.form['medium']
+		phone = request.form['phone']
+		q1 = request.form['q1']
+		q2 = request.form['q2']
+		q3 = request.form['q3']
+		q4 = request.form['q4']
+		q5 = request.form['q5']
+		q6 = request.form['q6']
+		q7 = request.form['q7']
+		profile = profiles(numbercode,group, age, gender, language, english, grade, background, medium, phone,q1,q2,q3,q4,q5,q6,q7)
+		db.session.add(profile)		
+		db.session.commit()
+		return redirect(url_for('index'))
+	return render_template('404.html')
 
 @application.route('/login', methods=['GET', 'POST'])
 def login():
@@ -111,6 +192,11 @@ def logout():
 @application.route('/show_all')
 def show_all():
    return render_template('show_all.html', students = students.query.all() )
+
+
+@application.route('/show_users')
+def show_users():
+   return render_template('show_users.html', students = profiles.query.all() )
 
 @application.route('/waitpage')
 def wait():
@@ -259,4 +345,6 @@ def page_not_found(e):
     return render_template('404.html'), 404        
 
 if __name__ == '__main__':
-    application.run(host='0.0.0.0')
+	db.drop_all()
+	db.create_all()
+	application.run(host='0.0.0.0')
