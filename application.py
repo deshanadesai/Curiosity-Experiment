@@ -102,7 +102,7 @@ class students(db.Model):
 
 
 # GLOBAL VARIABLE INITIALIZATION
-
+allowed_conditions = [0,1,2,3]
 f=open('questions.csv','rb')
 questions = f.readlines()
 f.close()
@@ -170,8 +170,14 @@ def store_profile():
 		q5 = int(request.form['q5'])
 		q6 = int(request.form['q6'])
 		q7 = int(request.form['q7'])
+		global allowed_conditions
+		if group not in allowed_conditions:
+			message = 'Please enter valid group code.'
+			return redirect(url_for('index', message=message))
+
 		profile = profiles(numbercode,group, age, gender, language, english, grade, background, medium, phone,q1,q2,q3,q4,q5,q6,q7)
 		print (numbercode,group, age, gender, language, english, grade, background, medium, phone,q1,q2,q3,q4,q5,q6,q7)
+
 		try:
 			db.session.add(profile)		
 			db.session.commit()
