@@ -50,6 +50,9 @@
 			 	</div>
 			  	<div class="panel-body">
                     <fieldset>
+                    {% if message %}
+                    	<p class=error><strong>{{ message }}</strong></p>
+                    {% endif %}
 			    	<form accept-charset="UTF-8" action='/login' method='post' role="form">                   
 			    	  	<div class="form-group">
 			    		    <input class="form-control" placeholder="Your Number Code" name="code" type="number">

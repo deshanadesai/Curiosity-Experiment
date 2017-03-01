@@ -66,39 +66,39 @@ class profiles(db.Model):
 
 
 class students(db.Model):
-    record_num = db.Column('record_number', db.TIMESTAMP, primary_key = True)
-    uid = db.Column(db.Integer, primary_key = True)
-    question_number = db.Column(db.Integer)
-    group = db.Column(db.Integer)
-    curiosity_rating = db.Column(db.Integer)  
-    certainty_rating = db.Column(db.Integer)
-    answer = db.Column(db.String(50))
-    time_page_1 = db.Column(db.Float)
-    time_page_2 = db.Column(db.Float)
-    time_page_3 = db.Column(db.Float)
-    time_page_4 = db.Column(db.Float)
-    time_page_5 = db.Column(db.Float)
-    time_page_6 = db.Column(db.Float)
-    reward = db.Column(db.Integer)
+	record_num = db.Column('record_number', db.TIMESTAMP, primary_key = True)
+	uid = db.Column(db.Integer, primary_key = True)
+	question_number = db.Column(db.Integer)
+	group = db.Column(db.Integer)
+	curiosity_rating = db.Column(db.Integer)  
+	certainty_rating = db.Column(db.Integer)
+	answer = db.Column(db.String(50))
+	time_page_1 = db.Column(db.Float)
+	time_page_2 = db.Column(db.Float)
+	time_page_3 = db.Column(db.Float)
+	time_page_4 = db.Column(db.Float)
+	time_page_5 = db.Column(db.Float)
+	time_page_6 = db.Column(db.Float)
+	reward = db.Column(db.Integer)
 
-    def __init__(self, uname,question_number,group,curiosity_rating,certainty_rating,answer,time_page_1,time_page_2,time_page_3,time_page_4,time_page_5,time_page_6,reward):
-        self.record_num = datetime.datetime.now()
-        self.uid = uname
-        self.question_number=question_number
-        self.group = group
-        self.curiosity_rating = curiosity_rating
-        self.certainty_rating = certainty_rating
-        self.answer = answer
-        self.time_page_1 = time_page_1
-        self.time_page_2 = time_page_2
-        self.time_page_3 = time_page_3
-        self.time_page_4 = time_page_4
-        self.time_page_5 = time_page_5
-        self.time_page_6 = time_page_6
-        self.reward = reward
+	def __init__(self, uname,question_number,group,curiosity_rating,certainty_rating,answer,time_page_1,time_page_2,time_page_3,time_page_4,time_page_5,time_page_6,reward):
+		self.record_num = datetime.datetime.now()
+		self.uid = uname
+		self.question_number=question_number
+		self.group = group
+		self.curiosity_rating = curiosity_rating
+		self.certainty_rating = certainty_rating
+		self.answer = answer
+		self.time_page_1 = time_page_1
+		self.time_page_2 = time_page_2
+		self.time_page_3 = time_page_3
+		self.time_page_4 = time_page_4
+		self.time_page_5 = time_page_5
+		self.time_page_6 = time_page_6
+		self.reward = reward
 
-    def __repr__(self):
-        return '<User %r>' % self.record_num
+	def __repr__(self):
+		return '<User %r>' % self.record_num
 
 
 # GLOBAL VARIABLE INITIALIZATION
@@ -113,15 +113,20 @@ f = open('info.tsv','rb')
 reader = csv.reader(f, dialect=csv.excel_tab)
 information=[]
 for row in reader:
-    information.append(str(row))
+	information.append(str(row))
 
 # BEGIN APP.
 
 @application.route('/')
 def index():
-    if 'username' in session:
-        return redirect(url_for('page1'))
-    return render_template('login.html')
+	if 'username' in session:
+		return redirect(url_for('page1'))
+	try:
+		message=request.args.get('message')
+	except:
+		message=''
+	print "Login message: ",message
+	return render_template('login.html',message=message)
 
 @application.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -130,64 +135,95 @@ def signup():
 @application.route('/consent', methods=['GET', 'POST'])
 def consent():
 	if request.method == 'POST':
-		return redirect(url_for('index'))
-	return render_template('consent.html')
+		try:
+			message=request.form['message']
+		except:
+			message=''
+		print "Consent message: ",message
+		return redirect(url_for('index',message=message))
+	try:
+		message=request.args.get('message')
+	except:
+		message=''
+	#print "Consent message: ",message
+	return render_template('consent.html',message=message)
 
 @application.route('/store_profile', methods=['GET', 'POST'])
 def store_profile():
 	if request.method == 'POST':
-		numbercode = request.form['code']
-		group = request.form['group']
-		age = request.form['age']
+		numbercode = int(request.form['code'])
+		group = int(request.form['group'])
+		age = int(request.form['age'])
 		gender = request.form['gender']
 		language = request.form['language']
-		english = request.form['eng']
+		english = int(request.form['eng'])
 		grade = request.form['grade']
 		background = request.form['background']
 		medium = request.form['medium']
 		phone = request.form['phone']
-		q1 = request.form['q1']
-		q2 = request.form['q2']
-		q3 = request.form['q3']
-		q4 = request.form['q4']
-		q5 = request.form['q5']
-		q6 = request.form['q6']
-		q7 = request.form['q7']
+		q1 = int(request.form['q1'])
+		q2 = int(request.form['q2'])
+		q3 = int(request.form['q3'])
+		q4 = int(request.form['q4'])
+		q5 = int(request.form['q5'])
+		q6 = int(request.form['q6'])
+		q7 = int(request.form['q7'])
 		profile = profiles(numbercode,group, age, gender, language, english, grade, background, medium, phone,q1,q2,q3,q4,q5,q6,q7)
-		db.session.add(profile)		
-		db.session.commit()
-		return redirect(url_for('index'))
+		print (numbercode,group, age, gender, language, english, grade, background, medium, phone,q1,q2,q3,q4,q5,q6,q7)
+		try:
+			db.session.add(profile)		
+			db.session.commit()
+			print "added"
+			message = 'Successful Signup. Please login!'
+			return redirect(url_for('consent',message=message))
+		except:
+			db.session.rollback()
+			message = 'Invalid number code. Please try again!'
+			return redirect(url_for('index',message=message))
 	return render_template('404.html')
 
 @application.route('/login', methods=['GET', 'POST'])
 def login():
-    if request.method == 'POST':
-        if len(request.form['code'])!=5:
-            return render_template('login.html')
-        session['username'] = int(request.form['code'])
-        session['group'] = int(request.form['group'])
-        session['counter'] = 0
-        session['time_page_1'] = 0
-        session['time_page_2'] = 0        
-        session['time_page_3'] = 0        
-        session['time_page_4'] = 0
-        session['time_page_5'] = 0
-        session['time_page_6'] = 0     
-        session['pointer_time'] = 0
-        session['reward'] = 0
-        session['curiosity'] = 0
-        session['certainty'] = 0
-        session['answer'] = ''
+	if request.method == 'POST':
+		numbercode = int(request.form['code'])
+		user = profiles.query.filter_by(number_code=numbercode).first()
+		if user is None:
+			message = 'Incorrect code. Please signup before login.'
+			return redirect(url_for('index',message=message))
+		if user.group != int(request.form['group']):
+			message = 'Incorrect Group Number. Please Enter Correct Group.'
+			return redirect(url_for('index',message=message))
+		session['username'] = int(request.form['code'])
+		session['group'] = int(request.form['group'])
+		session['counter'] = 0
+		session['time_page_1'] = 0
+		session['time_page_2'] = 0        
+		session['time_page_3'] = 0        
+		session['time_page_4'] = 0
+		session['time_page_5'] = 0
+		session['time_page_6'] = 0     
+		session['pointer_time'] = 0
+		session['reward'] = 0
+		session['curiosity'] = 0
+		session['certainty'] = 0
+		session['answer'] = ''
 
-        print session['username']
-        return redirect(url_for('index'))
-    return render_template('login.html')
+		print session['username']
+		return redirect(url_for('index'))
+	return render_template('login.html')
 
 @application.route('/logout')
 def logout():
-    # remove the username from the session if it's there
-    session.pop('username', None)
-    return redirect(url_for('index'))
+	# remove the username from the session if it's there
+	session.pop('username', None)
+	return redirect(url_for('index'))
+
+@application.route('/quit_message')
+def quit_message():
+	message=request.args.get('message')
+	session.pop('username', None)
+	return render_template('gameover.html',message=message)
+
 
 @application.route('/show_all')
 def show_all():
@@ -196,25 +232,16 @@ def show_all():
 
 @application.route('/show_users')
 def show_users():
-   return render_template('show_users.html', students = profiles.query.all() )
+   return render_template('show_users.html', profiles = profiles.query.all() )
 
 @application.route('/waitpage')
 def wait():
-    '''
-    def generate():
-        #yield 'waiting 5 seconds\n'
-
-        for i in range(1, 101):
-            time.sleep(0.05)
-
-            if i % 10 == 0:
-                yield '{}\n'.format('*')
-
-        #yield 'done\n'
-
-    return Response(generate(), mimetype='text/html')'''
-    now = time.time()
-    return render_template('blank.html', time=now)
+	#time.sleep(3)
+	now = time.time()
+	session['pointer_time'] = now
+	#now = time.time()
+	#return render_template('blank.html', time=now)
+	return render_template('certainty.html',group=session['group'], reward=session['reward'])
 
 @application.route('/page1', methods=['GET','POST'])
 def page1(x=None, y=None):
@@ -259,8 +286,8 @@ def page3(qn_number=None):
         now = time.time()
         session['time_page_2'] = (now-session['pointer_time'])
         print("%s seconds page 2" % session['time_page_2'])
-        session['pointer_time'] = now
-        return render_template('certainty.html',group=session['group'], reward=session['reward'])
+        return redirect(url_for('wait'))
+        #return render_template('certainty.html',group=session['group'], reward=session['reward'])
     return render_template('404.html'), 404
 
 @application.route('/page4', methods=['GET','POST'])
@@ -284,10 +311,11 @@ def stop(qn_number=None):
 
 @application.route('/quit', methods=['GET','POST'])
 def quit():
-    if request.method=='POST':
-        if request.form['choice']=='stop':
-            return redirect(url_for('logout'))
-    return render_template('404.html'),404
+	if request.method=='POST':
+		if request.form['choice']=='stop':
+			message = 'Congratulations! The game is over. Thank you for playing.'
+			return redirect(url_for('quit_message',message=message))
+	return render_template('404.html'),404
 
 @application.route('/page5', methods=['GET','POST'])
 def show(qn_number=None):
@@ -316,35 +344,33 @@ def show(qn_number=None):
 
 @application.route('/page6',methods=['GET','POST'])
 def moreinfo(qn_number=None):
-    if request.method == 'POST':
-        text = request.form['choice']
+	if request.method == 'POST':
+		text = request.form['choice']
 
-        now = time.time()
-        session['time_page_5'] = (now-session['pointer_time'])
-        print("%s seconds page 5 " % session['time_page_5'])
-        session['pointer_time'] = now  
+		now = time.time()
+		session['time_page_5'] = (now-session['pointer_time'])
+		print("%s seconds page 5 " % session['time_page_5'])
+		session['pointer_time'] = now  
 
-        if text == 'moreinfo':
-            counter = session['counter']
-            info = str(information[counter])
-            session['counter']+=1
-            return render_template('more_info.html',info=info, group=session['group'], reward=session['reward'])
-        if text == 'next':
-            session['counter']+=1
-            record = students(session['username'],session['counter'],session['group'], session['curiosity'], session['certainty'], session['answer'], session['time_page_1'],session['time_page_2'],session['time_page_3'],session['time_page_4'],session['time_page_5'],session['time_page_6'],session['reward'])
-            # Enter session data into database.
-            print (session['username'],session['counter'],session['group'], session['curiosity'], session['certainty'], session['answer'], session['time_page_1'],session['time_page_2'],session['time_page_3'],session['time_page_4'],session['time_page_5'],session['time_page_6'],session['reward'])
-            db.session.add(record)
-            db.session.commit()
-            return redirect(url_for('page1'))
+		if text == 'moreinfo':
+			counter = session['counter']
+			info = str(information[counter])
+			session['counter']+=1
+			return render_template('more_info.html',info=info, group=session['group'], reward=session['reward'])
+		if text == 'next':
+			session['counter']+=1
+			record = students(session['username'],session['counter'],session['group'], session['curiosity'], session['certainty'], session['answer'], session['time_page_1'],session['time_page_2'],session['time_page_3'],session['time_page_4'],session['time_page_5'],session['time_page_6'],session['reward'])
+			# Enter session data into database.
+			print (session['username'],session['counter'],session['group'], session['curiosity'], session['certainty'], session['answer'], session['time_page_1'],session['time_page_2'],session['time_page_3'],session['time_page_4'],session['time_page_5'],session['time_page_6'],session['reward'])
+			db.session.add(record)
+			db.session.commit()
+			return redirect(url_for('page1'))
 
-    return render_template('404.html'), 404
+	return render_template('404.html'), 404
 
 @application.errorhandler(404)
 def page_not_found(e):
-    return render_template('404.html'), 404        
+	return render_template('404.html'), 404        
 
 if __name__ == '__main__':
-	db.drop_all()
-	db.create_all()
 	application.run(host='0.0.0.0')

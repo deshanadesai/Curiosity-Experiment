@@ -29,15 +29,19 @@
 		&nbsp;
 	</div>
 
+	<div class="row">
+	<div class="col-lg-offset-2 col-lg-2">
+	<img src="{{ url_for('static', filename='Professortocat_v2.png') }}" class="img-rounded" width="100" height="100">
+	</div>
+	
 	{% block content %}
 	    {% if group!=0 %}
-			<div class="row">
 			<div class="col-lg-offset-7 text-center">
 			<button type="button" class="btn btn-success btn-lg"><strong>&nbsp;&nbsp;Score: {{reward}}&nbsp;&nbsp;</strong></button>
 			</div>
-			</div>
 	    {% endif %}
 	{% endblock content %}
+	</div>
 	</div>
 	<div class="form-group">
 		&nbsp;
@@ -50,7 +54,7 @@
 	</div>
 	
 	<div class="text-center center-block">
-		<p><font color="white"><h2>How certain are you to know the answer?</h2></font></p>
+		<p><font color="white"><h2>How certain are you about the answer to this question?</h2></font></p>
 	</div>
 	<br>
 
