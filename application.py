@@ -344,6 +344,11 @@ def show(qn_number=None):
                 session['reward'] +=5
         elif session['group']==1:
             session['reward']+=5
+        elif session['group']==3:
+        	if session['answer'] in ans:
+        		session['reward']+=6
+        	else:
+        		session['reward']+=3
 
         return render_template('show_answer.html',qn=qn,ans=ans[0], group=session['group'], reward=session['reward'])
     return render_template('404.html'), 404
