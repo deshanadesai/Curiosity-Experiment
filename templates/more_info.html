@@ -34,6 +34,19 @@
 			</div>
 			</div>
 	    {% endif %}
+		{% if reward<=15 %}
+			<div class="col-lg-offset-7 text-center">
+			<font color="white"><h4><strong>&nbsp;&nbsp;Grade: C&nbsp;&nbsp;</strong></h4></font>
+			</div>
+	   	{% elif reward<=35 %}
+			<div class="col-lg-offset-7 text-center">
+			<font color="white"><h4><strong>&nbsp;&nbsp;Grade: B&nbsp;&nbsp;</strong></h4></font>
+			</div>
+	    {% elif reward<=65 %}
+			<div class="col-lg-offset-7 text-center">
+			<font color="white"><h4><strong>&nbsp;&nbsp;Grade: A&nbsp;&nbsp;</strong></h4></font>
+			</div>
+	    {% endif %}
 	{% endblock content %}
 	<div class="form-group">
 		&nbsp;

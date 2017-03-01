@@ -115,6 +115,8 @@ information=[]
 for row in reader:
 	information.append(str(row))
 
+MAX_QUESTIONS = len(questions)
+
 # BEGIN APP.
 
 @application.route('/')
@@ -245,24 +247,28 @@ def wait():
 
 @application.route('/page1', methods=['GET','POST'])
 def page1(x=None, y=None):
-    counter = session['counter']
-    qn = questions[counter]
+	counter = session['counter']
+	global MAX_QUESTIONS
+	if counter>=MAX_QUESTIONS:
+		message = 'Congratulations! The game is over. Thank you for playing.'
+		return redirect(url_for('quit_message',message=message))
+	qn = questions[counter]
 
-    if request.method=='POST':
-        if request.form['choice'] =='moreinfo':
-            now = time.time()
-            session['time_page_6'] = (now-session['pointer_time'])
-            print("%s seconds page 6 " % session['time_page_6'])
-        
-            record = students(session['username'],session['counter'],session['group'], session['curiosity'], session['certainty'], session['answer'], session['time_page_1'],session['time_page_2'],session['time_page_3'],session['time_page_4'],session['time_page_5'],session['time_page_6'],session['reward'])
-            # Enter session data into database.
-            db.session.add(record)
-            db.session.commit()
+	if request.method=='POST':
+		if request.form['choice'] =='moreinfo':
+			now = time.time()
+			session['time_page_6'] = (now-session['pointer_time'])
+			print("%s seconds page 6 " % session['time_page_6'])
 
-    # User is entering for the first time.
-    session['pointer_time'] = time.time()
-    #print("%s" % start_time)
-    return render_template('question.html', qn=qn, group=session['group'], reward=session['reward'])
+			record = students(session['username'],session['counter'],session['group'], session['curiosity'], session['certainty'], session['answer'], session['time_page_1'],session['time_page_2'],session['time_page_3'],session['time_page_4'],session['time_page_5'],session['time_page_6'],session['reward'])
+			# Enter session data into database.
+			db.session.add(record)
+			db.session.commit()
+
+	# User is entering for the first time.
+	session['pointer_time'] = time.time()
+	#print("%s" % start_time)
+	return render_template('question.html', qn=qn, group=session['group'], reward=session['reward'])
 
 @application.route('/page2', methods=['GET','POST'])
 def page2(qn_number=None):
