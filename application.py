@@ -21,7 +21,7 @@ application.debug=True
 # change this to your own value
 application.secret_key = 'cC1YCIWOj9GgWspgNEo2'   
 
-class profiles(db.Model):
+class user_profiles(db.Model):
 	number_code = db.Column('number_code',db.Integer, primary_key=True)
 	group = db.Column(db.Integer)
 	timestamp = db.Column(db.TIMESTAMP)
@@ -32,7 +32,7 @@ class profiles(db.Model):
 	grade = db.Column(db.String(10))
 	background = db.Column(db.String(10))
 	medium = db.Column(db.String(10))
-	phone = db.Column(db.String(10))
+	fullname = db.Column(db.String(50))
 	q1 = db.Column(db.Integer)
 	q2 = db.Column(db.Integer)
 	q3 = db.Column(db.Integer)
@@ -41,7 +41,7 @@ class profiles(db.Model):
 	q6 = db.Column(db.Integer)
 	q7 = db.Column(db.Integer)
 
-	def __init__(self,number_code,group,age,gender,language,english,grade,background,medium,phone,q1,q2,q3,q4,q5,q6,q7):
+	def __init__(self,number_code,group,age,gender,language,english,grade,background,medium,fullname,q1,q2,q3,q4,q5,q6,q7):
 		self.timestamp = datetime.datetime.now()
 		self.number_code = number_code
 		self.group = group
@@ -52,7 +52,7 @@ class profiles(db.Model):
 		self.grade = grade
 		self.background = background
 		self.medium = medium
-		self.phone = phone
+		self.fullname = fullname
 		self.q1 = q1
 		self.q2 = q2
 		self.q3 = q3
@@ -162,7 +162,7 @@ def store_profile():
 		grade = request.form['grade']
 		background = request.form['background']
 		medium = request.form['medium']
-		phone = request.form['phone']
+		fullname = request.form['fullname']
 		q1 = int(request.form['q1'])
 		q2 = int(request.form['q2'])
 		q3 = int(request.form['q3'])
@@ -175,8 +175,8 @@ def store_profile():
 			message = 'Please enter valid group code.'
 			return redirect(url_for('index', message=message))
 
-		profile = profiles(numbercode,group, age, gender, language, english, grade, background, medium, phone,q1,q2,q3,q4,q5,q6,q7)
-		print (numbercode,group, age, gender, language, english, grade, background, medium, phone,q1,q2,q3,q4,q5,q6,q7)
+		profile = user_profiles(numbercode,group, age, gender, language, english, grade, background, medium, fullname,q1,q2,q3,q4,q5,q6,q7)
+		print (numbercode,group, age, gender, language, english, grade, background, medium, fullname,q1,q2,q3,q4,q5,q6,q7)
 
 		try:
 			db.session.add(profile)		
@@ -194,16 +194,29 @@ def store_profile():
 def login():
 	if request.method == 'POST':
 		numbercode = int(request.form['code'])
-		user = profiles.query.filter_by(number_code=numbercode).first()
+		user = user_profiles.query.filter_by(number_code=numbercode).first()
 		if user is None:
 			message = 'Incorrect code. Please signup before login.'
 			return redirect(url_for('index',message=message))
 		if user.group != int(request.form['group']):
 			message = 'Incorrect Group Number. Please Enter Correct Group.'
 			return redirect(url_for('index',message=message))
+
 		session['username'] = int(request.form['code'])
 		session['group'] = int(request.form['group'])
-		session['counter'] = 0
+		returning_user = students.query.filter_by(uid=session['username']).all()
+		#print returning_user
+		#print session['username']
+		if len(returning_user)>0:
+			#print returning_user
+			qns = []
+			for user in returning_user:
+				qns.append(int(user.question_number))
+			#print qns
+			max_qn = max(qns)
+			session['counter'] = max_qn+1
+		else:
+			session['counter'] = 0
 		session['time_page_1'] = 0
 		session['time_page_2'] = 0        
 		session['time_page_3'] = 0        
@@ -240,7 +253,7 @@ def show_all():
 
 @application.route('/show_users')
 def show_users():
-   return render_template('show_users.html', profiles = profiles.query.all() )
+   return render_template('show_users.html', profiles = user_profiles.query.all() )
 
 @application.route('/waitpage')
 def wait():
@@ -390,4 +403,5 @@ def page_not_found(e):
 	return render_template('404.html'), 404        
 
 if __name__ == '__main__':
+	#db.drop_all()
 	application.run(host='0.0.0.0')

@@ -36,7 +36,7 @@
 			<button type="button" class="btn btn-success btn-lg"><strong>&nbsp;&nbsp;Score: {{reward}}&nbsp;&nbsp;</strong></button>
 			</div>
 			</div>
-	    {% endif %}
+	    
 		{% if reward<=15 %}
 			<div class="col-lg-offset-7 text-center">
 			<font color="white"><h4><strong>&nbsp;&nbsp;Grade: C&nbsp;&nbsp;</strong></h4></font>
@@ -49,6 +49,7 @@
 			<div class="col-lg-offset-7 text-center">
 			<font color="white"><h4><strong>&nbsp;&nbsp;Grade: A&nbsp;&nbsp;</strong></h4></font>
 			</div>
+	    {% endif %}
 	    {% endif %}
 	{% endblock content %}
 	<div class="form-group">

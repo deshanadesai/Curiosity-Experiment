@@ -1,6 +1,6 @@
 from application import db
 
-class profiles(db.Model):
+class user_profiles(db.Model):
     number_code = db.Column('number_code',db.Integer, primary_key=True)
     group = db.Column(db.Integer)
     timestamp = db.Column(db.TIMESTAMP)
@@ -11,7 +11,7 @@ class profiles(db.Model):
     grade = db.Column(db.String(10))
     background = db.Column(db.String(10))
     medium = db.Column(db.String(10))
-    phone = db.Column(db.String(10))
+    fullname = db.Column(db.String(50))
     q1 = db.Column(db.Integer)
     q2 = db.Column(db.Integer)
     q3 = db.Column(db.Integer)
@@ -20,7 +20,7 @@ class profiles(db.Model):
     q6 = db.Column(db.Integer)
     q7 = db.Column(db.Integer)
 
-    def __init__(self,number_code,group,age,gender,language,english,grade,background,medium,phone,q1,q2,q3,q4,q5,q6,q7):
+    def __init__(self,number_code,group,age,gender,language,english,grade,background,medium,fullname,q1,q2,q3,q4,q5,q6,q7):
         self.timestamp = datetime.datetime.now()
         self.number_code = number_code
         self.group = group
@@ -31,7 +31,7 @@ class profiles(db.Model):
         self.grade = grade
         self.background = background
         self.medium = medium
-        self.phone = phone
+        self.fullname = fullname
         self.q1 = q1
         self.q2 = q2
         self.q3 = q3
@@ -45,10 +45,9 @@ class profiles(db.Model):
 
 
 
-
 class students(db.Model):
-    record_num = db.Column('record_number', db.TIMESTAMP, primary_key = True)
-    uid = db.Column(db.Integer, primary_key = True)
+    record_num = db.Column('record_number', db.TIMESTAMP, primary_key = True, autoincrement=False)
+    uid = db.Column('uid', db.Integer, primary_key = True, autoincrement=False)
     question_number = db.Column(db.Integer)
     group = db.Column(db.Integer)
     curiosity_rating = db.Column(db.Integer)  
@@ -80,4 +79,3 @@ class students(db.Model):
 
     def __repr__(self):
         return '<User %r>' % self.record_num
-

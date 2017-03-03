@@ -1,6 +1,6 @@
 from application import db
 from application.models import students
-from application.models import profiles
+from application.models import user_profiles
 
 db.create_all()
 
