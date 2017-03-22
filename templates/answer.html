@@ -34,26 +34,27 @@
 		&nbsp;
 	</div>
 	<div class="row">
+	<!--
 	<div class="col-lg-offset-2 col-lg-2">
 	<img src="{{ url_for('static', filename='inspectocat.jpg') }}" class="img-rounded" width="100" height="100">
-	</div>
+	</div> -->
 	{% block content %}
 	    {% if group!=0 %}
 			<div class="col-lg-offset-7 text-center">
-			<button type="button" class="btn btn-success btn-lg"><strong>&nbsp;&nbsp;Score: {{reward}}&nbsp;&nbsp;</strong></button>
+			<button type="button" class="btn btn-default btn-lg"><strong>&nbsp;&nbsp;Marks: {{reward}}&nbsp;&nbsp;</strong></button>
 			</div>
 	    
 	   	{% if reward<=15 %}
 			<div class="col-lg-offset-7 text-center">
-			<font color="white"><h4><strong>&nbsp;&nbsp;Grade: C&nbsp;&nbsp;</strong></h4></font>
+			<font color="red"><h4><strong>&nbsp;&nbsp;Grade Earned: C&nbsp;&nbsp;</strong></h4></font>
 			</div>
 	   	{% elif reward<=35 %}
 			<div class="col-lg-offset-7 text-center">
-			<font color="white"><h4><strong>&nbsp;&nbsp;Grade: B&nbsp;&nbsp;</strong></h4></font>
+			<font color="blue"><h4><strong>&nbsp;&nbsp;Grade Earned: B&nbsp;&nbsp;</strong></h4></font>
 			</div>
 	    {% elif reward<=65 %}
 			<div class="col-lg-offset-7 text-center">
-			<font color="white"><h4><strong>&nbsp;&nbsp;Grade: A&nbsp;&nbsp;</strong></h4></font>
+			<font color="green"><h4><strong>&nbsp;&nbsp;Grade Earned: A&nbsp;&nbsp;</strong></h4></font>
 			</div>
 	    {% endif %}
 	    {% endif %}
@@ -73,6 +74,11 @@
 			<div class="text-center center-block"><p><font color="white"><h2>Write your answer:</h2></font></p></div><br>
 			<div class="form-group col-lg-offset-4 col-lg-4 text-center">
 		  		<input class="form-control transparent-input" type='text' name='ans' placeholder="Your answer"  required>
+		  	</div>
+		  	<div class="form-group col-lg-1 text-center">
+		  		<input class="btn btn-md btn-success btn-block" type="submit" value="Next">
+		  	</div>
+
 			</div>
 			</form>
 		{% else %}
@@ -80,6 +86,10 @@
 				<div class="text-center center-block"><p><font color="white"><h2>Write your answer:</h2></font></p></div><br>
 				<div class="form-group col-lg-offset-4 col-lg-4 text-center">
 			  		<input class="form-control transparent-input" type='text' name='ans' placeholder="Your answer"  required>
+			  	</div>
+			  	<div class="form-group col-lg-1 text-center">
+			  		<input class="btn btn-md btn-success btn-block" type="submit" value="Next">
+			  	</div>
 				</div>
 				</form>
 	    {% endif %}

@@ -28,24 +28,23 @@
 
 	{% block content %}
 	    {% if group!=0 %}
-			<div class="row">
 			<div class="col-lg-offset-7 text-center">
-			<button type="button" class="btn btn-success btn-lg"><strong>&nbsp;&nbsp;Score: {{reward}}&nbsp;&nbsp;</strong></button>
+			<button type="button" class="btn btn-default btn-lg"><strong>&nbsp;&nbsp;Marks: {{reward}}&nbsp;&nbsp;</strong></button>
 			</div>
-			</div>
-	    {% endif %}
-		{% if reward<=15 %}
+	    
+	   	{% if reward<=15 %}
 			<div class="col-lg-offset-7 text-center">
-			<font color="white"><h4><strong>&nbsp;&nbsp;Grade: C&nbsp;&nbsp;</strong></h4></font>
+			<font color="red"><h4><strong>&nbsp;&nbsp;Grade Earned: C&nbsp;&nbsp;</strong></h4></font>
 			</div>
 	   	{% elif reward<=35 %}
 			<div class="col-lg-offset-7 text-center">
-			<font color="white"><h4><strong>&nbsp;&nbsp;Grade: B&nbsp;&nbsp;</strong></h4></font>
+			<font color="blue"><h4><strong>&nbsp;&nbsp;Grade Earned: B&nbsp;&nbsp;</strong></h4></font>
 			</div>
 	    {% elif reward<=65 %}
 			<div class="col-lg-offset-7 text-center">
-			<font color="white"><h4><strong>&nbsp;&nbsp;Grade: A&nbsp;&nbsp;</strong></h4></font>
+			<font color="green"><h4><strong>&nbsp;&nbsp;Grade Earned: A&nbsp;&nbsp;</strong></h4></font>
 			</div>
+	    {% endif %}
 	    {% endif %}
 	{% endblock content %}
 	<div class="form-group">

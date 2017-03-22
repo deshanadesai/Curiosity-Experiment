@@ -132,7 +132,7 @@ def index():
 
 @application.route('/signup', methods=['GET', 'POST'])
 def signup():
-	return render_template('signup.html')
+	return redirect(url_for('consent',message=''))
 
 @application.route('/consent', methods=['GET', 'POST'])
 def consent():
@@ -142,7 +142,8 @@ def consent():
 		except:
 			message=''
 		print "Consent message: ",message
-		return redirect(url_for('index',message=message))
+		return render_template('signup.html',message=message)
+		#return redirect(url_for('index',message=message))
 	try:
 		message=request.args.get('message')
 	except:
@@ -183,7 +184,8 @@ def store_profile():
 			db.session.commit()
 			print "added"
 			message = 'Successful Signup. Please login!'
-			return redirect(url_for('consent',message=message))
+			return redirect(url_for('index',message=message))
+			#return redirect(url_for('consent',message=message))
 		except:
 			db.session.rollback()
 			message = 'Invalid number code. Please try again!'
