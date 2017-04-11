@@ -122,7 +122,10 @@ MAX_QUESTIONS = len(questions)
 @application.route('/')
 def index():
 	if 'username' in session:
-		return redirect(url_for('page1'))
+		if session['counter']==0:
+			return redirect(url_for('starttrial'))
+		else:
+			return redirect(url_for('page1'))
 	try:
 		message=request.args.get('message')
 	except:
@@ -212,13 +215,22 @@ def login():
 		if len(returning_user)>0:
 			#print returning_user
 			qns = []
+			scores = []
 			for user in returning_user:
 				qns.append(int(user.question_number))
+				scores.append(int(user.reward))
+
 			#print qns
 			max_qn = max(qns)
 			session['counter'] = max_qn+1
+			session['reward'] = max(scores)
 		else:
 			session['counter'] = 0
+			session['reward'] = 0
+		if session['counter']<3:
+			session['trial']='on'
+		else:
+			session['trial']='off'
 		session['time_page_1'] = 0
 		session['time_page_2'] = 0        
 		session['time_page_3'] = 0        
@@ -226,7 +238,6 @@ def login():
 		session['time_page_5'] = 0
 		session['time_page_6'] = 0     
 		session['pointer_time'] = 0
-		session['reward'] = 0
 		session['curiosity'] = 0
 		session['certainty'] = 0
 		session['answer'] = ''
@@ -240,6 +251,10 @@ def logout():
 	# remove the username from the session if it's there
 	session.pop('username', None)
 	return redirect(url_for('index'))
+
+@application.route('/starttrial', methods=['GET', 'POST'])
+def starttrial():
+	return render_template('trial_start.html')
 
 @application.route('/quit_message')
 def quit_message():
@@ -266,13 +281,23 @@ def wait():
 	#return render_template('blank.html', time=now)
 	return render_template('certainty.html',group=session['group'], reward=session['reward'])
 
+@application.route('/stoptrial', methods=['GET', 'POST'])
+def stoptrial():
+	session['reward'] = 0
+	session['trial'] = 'off'
+	return render_template('trial_end.html')
+	
+
 @application.route('/page1', methods=['GET','POST'])
-def page1(x=None, y=None):
+def page1(x=None):
 	counter = session['counter']
 	global MAX_QUESTIONS
 	if counter>=MAX_QUESTIONS:
 		message = 'Congratulations! The game is over. Thank you for playing.'
 		return redirect(url_for('quit_message',message=message))
+
+	if counter==3 and session['trial']=='on':
+		return redirect(url_for('stoptrial'))
 	qn = questions[counter]
 
 	if request.method=='POST':
@@ -325,7 +350,7 @@ def ans(qn_number=None):
         session['time_page_3'] = (now-session['pointer_time'])
         print("%s seconds page 3 " % session['time_page_3'])
         session['pointer_time'] = now  
-        return render_template('answer.html', group=session['group'], reward=session['reward'], counter=session['counter'], minimum=2)
+        return render_template('answer.html', group=session['group'], reward=session['reward'], counter=session['counter'], minimum=15)
     return render_template('404.html'), 404
 
 @application.route('/stop', methods=['GET','POST'])
