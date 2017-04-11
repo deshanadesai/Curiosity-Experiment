@@ -413,6 +413,8 @@ def moreinfo(qn_number=None):
 			counter = session['counter']
 			info = str(information[counter])
 			session['counter']+=1
+			info = (info.split('[')[1]).split(']')[0]
+			print info
 			return render_template('more_info.html',info=info, group=session['group'], reward=session['reward'])
 		if text == 'next':
 			session['counter']+=1
