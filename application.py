@@ -425,6 +425,29 @@ def moreinfo(qn_number=None):
 
 	return render_template('404.html'), 404
 
+import csv
+@application.route('/export_user_profiles',methods=['GET','POST'])
+def export_user_profiles():
+	user = user_profiles.query.all()
+	f = open('user_profiles.csv','wb')
+	writer = csv.writer(f)
+	writer.writerow(['Number Code','Group','Timestamp','Age','Gender','Language','English','Grade','Background','Medium','Fullname','Q1','Q2','Q3','Q4','Q5','Q6','Q7'])
+	for u in user:
+		writer.writerow([u.number_code,u.group,u.timestamp,u.age,u.gender,u.language,u.english,u.grade,u.background,u.medium,u.fullname,u.q1,u.q2,u.q3,u.q4,u.q5,u.q6,u.q7])
+	f.close()
+	return 'Done'	
+
+@application.route('/export_user_records',methods=['GET','POST'])
+def export_user_records():
+	user = students.query.all()
+	f = open('user_records.csv','wb')
+	writer = csv.writer(f)
+	writer.writerow(['Record Number','UID','Question','Group','Curiosity','Certainty','Answer','T1','T2','T3','T4','T5','T6','Reward'])
+	for u in user:
+		writer.writerow([u.record_num,u.uid,u.question_number,u.group,u.curiosity_rating,u.certainty_rating,u.answer,u.time_page_1,u.time_page_2,u.time_page_3,u.time_page_4,u.time_page_5,u.time_page_6,u.reward])
+	f.close()
+	return 'Done'
+
 @application.errorhandler(404)
 def page_not_found(e):
 	return render_template('404.html'), 404        
