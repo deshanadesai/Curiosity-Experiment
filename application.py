@@ -386,6 +386,7 @@ def show(qn_number=None):
         qn = questions[counter]
         all_ans = answers[counter].split(",")
         ans = []
+        show_ans=all_ans[0]
         for a in all_ans:
         	ans.append(a.lower())
         #print ans
@@ -403,7 +404,7 @@ def show(qn_number=None):
         	else:
         		session['reward']+=3
 
-        return render_template('show_answer.html',qn=qn,ans=ans[0], group=session['group'], reward=session['reward'], result = result)
+        return render_template('show_answer.html',qn=qn,ans=show_ans, group=session['group'], reward=session['reward'], result = result)
     return render_template('404.html'), 404
 
 @application.route('/page6',methods=['GET','POST'])
