@@ -66,8 +66,8 @@ class user_profiles(db.Model):
 
 
 class students(db.Model):
-	record_num = db.Column('record_number', db.TIMESTAMP, primary_key = True)
-	uid = db.Column(db.Integer, primary_key = True)
+	record_num = db.Column('record_number', db.TIMESTAMP, primary_key = True, autoincrement = False)
+	uid = db.Column(db.Integer, primary_key = True, autoincrement = False)
 	question_number = db.Column(db.Integer)
 	group = db.Column(db.Integer)
 	curiosity_rating = db.Column(db.Integer)  
@@ -110,11 +110,13 @@ f=open('ans.csv','rb')
 answers = f.readlines()
 f.close()
 f = open('info.tsv','rb')
-reader = csv.reader(f, dialect=csv.excel_tab)
+#reader = csv.reader(f, dialect=csv.excel_tab)
+reader = csv.reader(f, delimiter='\t')
 information=[]
 for row in reader:
-	information.append(str(row))
+	information.append(str(row[0]))
 
+#print information
 MAX_QUESTIONS = len(questions)
 
 # BEGIN APP.
@@ -130,7 +132,7 @@ def index():
 		message=request.args.get('message')
 	except:
 		message=''
-	print "Login message: ",message
+	#print "Login message: ",message
 	return render_template('login.html',message=message)
 
 @application.route('/signup', methods=['GET', 'POST'])
@@ -144,7 +146,7 @@ def consent():
 			message=request.form['message']
 		except:
 			message=''
-		print "Consent message: ",message
+		#print "Consent message: ",message
 		return render_template('signup.html',message=message)
 		#return redirect(url_for('index',message=message))
 	try:
@@ -180,12 +182,11 @@ def store_profile():
 			return redirect(url_for('index', message=message))
 
 		profile = user_profiles(numbercode,group, age, gender, language, english, grade, background, medium, fullname,q1,q2,q3,q4,q5,q6,q7)
-		print (numbercode,group, age, gender, language, english, grade, background, medium, fullname,q1,q2,q3,q4,q5,q6,q7)
+		#print (numbercode,group, age, gender, language, english, grade, background, medium, fullname,q1,q2,q3,q4,q5,q6,q7)
 
 		try:
 			db.session.add(profile)		
 			db.session.commit()
-			print "added"
 			message = 'Successful Signup. Please login!'
 			return redirect(url_for('index',message=message))
 			#return redirect(url_for('consent',message=message))
@@ -242,7 +243,7 @@ def login():
 		session['certainty'] = 0
 		session['answer'] = ''
 
-		print session['username']
+		#print session['username']
 		return redirect(url_for('index'))
 	return render_template('login.html')
 
@@ -321,7 +322,7 @@ def page2(qn_number=None):
     if request.method == 'POST':
         button = request.form['continue']
         if button == "submit":
-            print "CURIOSITY: ",button
+            #print "CURIOSITY: ",button
             
             now = time.time()
             session['time_page_1'] = (now-session['pointer_time'])
@@ -374,7 +375,7 @@ def show(qn_number=None):
     if request.method == 'POST':
         if 'ans' in request.form:
             text = request.form['ans']
-            session['answer']=text
+            session['answer']= text.lower()
 
         now = time.time()
         session['time_page_4'] = (now-session['pointer_time'])
@@ -383,7 +384,11 @@ def show(qn_number=None):
 
         counter = session['counter']
         qn = questions[counter]
-        ans = answers[counter].split(",")
+        all_ans = answers[counter].split(",")
+        ans = []
+        for a in all_ans:
+        	ans.append(a.lower())
+        #print ans
 
         if session['group']==2:
             if session['answer'] in ans:
@@ -413,14 +418,14 @@ def moreinfo(qn_number=None):
 			counter = session['counter']
 			info = str(information[counter])
 			session['counter']+=1
-			info = (info.split('[')[1]).split(']')[0]
-			print info
+			#info = (info.split('[')[1]).split(']')[0]
+			#print info
 			return render_template('more_info.html',info=info, group=session['group'], reward=session['reward'])
 		if text == 'next':
 			session['counter']+=1
 			record = students(session['username'],session['counter'],session['group'], session['curiosity'], session['certainty'], session['answer'], session['time_page_1'],session['time_page_2'],session['time_page_3'],session['time_page_4'],session['time_page_5'],session['time_page_6'],session['reward'])
 			# Enter session data into database.
-			print (session['username'],session['counter'],session['group'], session['curiosity'], session['certainty'], session['answer'], session['time_page_1'],session['time_page_2'],session['time_page_3'],session['time_page_4'],session['time_page_5'],session['time_page_6'],session['reward'])
+			#print (session['username'],session['counter'],session['group'], session['curiosity'], session['certainty'], session['answer'], session['time_page_1'],session['time_page_2'],session['time_page_3'],session['time_page_4'],session['time_page_5'],session['time_page_6'],session['reward'])
 			db.session.add(record)
 			db.session.commit()
 			return redirect(url_for('page1'))
@@ -456,4 +461,5 @@ def page_not_found(e):
 
 if __name__ == '__main__':
 	#db.drop_all()
+	#db.create_all()
 	application.run(host='0.0.0.0')
