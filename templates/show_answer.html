@@ -53,10 +53,15 @@
 			</div>
 	    {% endif %}
 	    {% endif %}
+		<div class="col-lg-offset-7 text-center">
+		{% if result == 'True' %}
+			<font color="green"><h4><strong>&nbsp;&nbsp;Correct Answer!!&nbsp;&nbsp;</strong></h4></font>
+		{% else %}
+			<font color="red"><h4><strong>&nbsp;&nbsp;Incorrect Answer!!&nbsp;&nbsp;</strong></h4></font>
+		{% endif %}
+		</div>
 	{% endblock content %}
-	<div class="form-group">
-		&nbsp;
-	</div>
+
 	<div class="form-group">
 		&nbsp;
 	</div>
