@@ -376,7 +376,7 @@ def show(qn_number=None):
         if 'ans' in request.form:
             text = (request.form['ans']).lower()
             session['answer'] = text.lower()
-        print session['answer']
+        #print session['answer']
         now = time.time()
         session['time_page_4'] = (now-session['pointer_time'])
         print("%s seconds page 4 " % session['time_page_4'])
@@ -389,7 +389,7 @@ def show(qn_number=None):
         show_ans=all_ans[0]
         for a in all_ans:
         	ans.append(a.lower())
-        print ans
+        #print ans
         result = 'False'
         if session['answer'] in ans:
         	result = 'True'
