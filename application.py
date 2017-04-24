@@ -374,7 +374,7 @@ def quit():
 def show(qn_number=None):
     if request.method == 'POST':
         if 'ans' in request.form:
-            text = request.form['ans']
+            text = (request.form['ans']).lower()
             session['answer'] = text.lower()
         print session['answer']
         now = time.time()
