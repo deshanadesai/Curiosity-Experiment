@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+	<title>Site Login</title>
+
+	<!-- Bootstrap -->
+	<link href = "{{ url_for('static', filename='css/bootstrap.css') }}" rel="stylesheet">
+
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+  <style css="text/css">
+  	body {background-color: black}
+  </style>
+
+</head>
+<body>
+<script src="http://mymaplist.com/js/vendor/TweenLite.min.js"></script>
+<!-- This is a very simple parallax effect achieved by simple CSS 3 multiple backgrounds, made by http://twitter.com/msurguy -->
+	<div class="form-group">
+		&nbsp;
+	</div>
+	<div class="form-group">
+		&nbsp;
+	</div>
+
+	
+<div class="container">
+    <div class="row vertical-offset-100">
+    	<div class="col-md-6 col-md-offset-3">
+    		<div class="panel panel-default">
+			  	<div class="panel-heading">
+			    	<h3 class="panel-title">Please sign in</h3>
+			 	</div>
+			  	<div class="panel-body">
+			    	<form accept-charset="UTF-8" action='/store_profile' method='post' role="form">  	
+                    <fieldset>
+			    	  	<div class="form-group">
+			    	  		<h4>Your Number Code:</h4><br>
+			    		    <input class="form-control" placeholder="Your Number Code" name="code" type="number" min="0" required>
+			    		</div><br>
+			    	  	<div class="form-group">
+			    	  		<h4>Group:</h4><br>
+			    		    <input class="form-control" placeholder="Your Group Number" name="group" type="number" min="0" max="4" required>
+			    		</div>			    		
+			    		<br>
+			    		
+			    		<div class="form-group">
+			    			<h4>Your Full Name?</h4><br>
+			    			<input class="form-control" maxlength="50" placeholder="Your Full Name" name="fullname" type="text" required>
+			    		</div>	<br>			    		
+			    		<div class="form-group">
+			    			<h4>Your Age:</h4><br>
+			    			<input class="form-control" placeholder="Age" name="age" type="number" required>
+			    		</div>
+			    		<br>
+			    		<div class="form-group">
+			    			<h4>Your Gender (Male/Female):</h4><br>
+			    			<div class="radio">
+			    			<label><input type="radio" name="gender" value="female" required>Female</label>
+			    			</div>
+			    			<div class="radio">
+			    			<label><input type="radio" name="gender" value="male">Male</label>
+			    			</div>			    			
+			    		</div>
+			    		<br>
+			    		<div class="form-group">
+			    			<h4>Your Native Language:</h4><br>
+			    			<input class="form-control" maxlength="50" placeholder="Your Native Language" name="language" type="text" required>
+			    		</div>
+			    		<br>
+			    		<div class="form-group">
+			    			<h4>If English is not your native language, how fluently do you speak English?</h4><br>
+			    			<div class="radio">
+			    			<label><input type="radio" name="eng" value="4" required>Very fluently</label>
+			    			</div>
+			    			<div class="radio">
+			    			<label><input type="radio" name="eng" value="3">Quite fluently</label>
+			    			</div>
+			    			<div class="radio">
+			    			<label><input type="radio" name="eng" value="2">Somewhat</label>
+			    			</div>
+			    			<div class="radio">
+			    			<label><input type="radio" name="eng" value="1">not at all</label>
+			    			</div>
+			    		</div>
+			    		<br>
+			    		<div class="form-group">
+			    			<h4>Which grade do you study in?</h4><br>
+			    			<input class="form-control" maxlength="10" placeholder="Your grade" name="grade" type="text" required>
+			    		</div>
+			    		<br>
+			    		<div class="form-group">
+			    			<h4>Your Background</h4><br>
+			    			<div class="radio">
+			    			<label><input type="radio" name="background" value="rural" required>Rural</label>
+			    			</div>
+			    			<div class="radio">
+			    			<label><input type="radio" name="background" value="urban">Urban</label>
+			    			</div>
+			    		</div>
+			    		<br>
+			    		<div class="form-group">
+			    			<h4>Which medium of language do you study in?</h4><br>
+			    			<input class="form-control" maxlength="10" placeholder="Your schooling medium" name="medium" type="text" required>
+			    		</div>		    		
+			    		<br>
+			    		<div class="form-group">
+			    			<h4>I would describe myself as someone who actively seeks as much information as I can in a new situation. </h4><br>
+			    			<label class="radio-inline" ><input type="radio" name="q1" value="1" required>1</label>
+			    			<label class="radio-inline" ><input type="radio" name="q1" value="2">2</label>
+			    			<label class="radio-inline" ><input type="radio" name="q1" value="3">3</label>
+			    			<label class="radio-inline" ><input type="radio" name="q1" value="4">4</label>
+			    			<label class="radio-inline" ><input type="radio" name="q1" value="5">5</label>
+			    			<label class="radio-inline" ><input type="radio" name="q1" value="6">6</label>
+			    			<label class="radio-inline" ><input type="radio" name="q1" value="7">7</label>
+			    		</div>
+			    		<br>
+			    		<div class="form-group">
+			    			<h4>When I am participating in an activity, I tend to get so involved that I lose track of time. </h4><br>
+			    			<label class="radio-inline"><input type="radio" name="q2" value="1" required>1</label>
+			    			<label class="radio-inline"><input type="radio" name="q2" value="2">2</label>
+			    			<label class="radio-inline"><input type="radio" name="q2" value="3">3</label>
+			    			<label class="radio-inline"><input type="radio" name="q2" value="4">4</label>
+			    			<label class="radio-inline"><input type="radio" name="q2" value="5">5</label>
+			    			<label class="radio-inline"><input type="radio" name="q2" value="6">6</label>
+			    			<label class="radio-inline"><input type="radio" name="q2" value="7">7</label>
+			    		</div>
+			    		<br>
+
+			    		<div class="form-group">
+			    			<h4>I frequently find myself looking for new opportunities to grow as a person (e.g., information, people, resources). </h4><br>
+			    			<label class="radio-inline"><input type="radio" name="q3" value="1" required>1</label>
+			    			<label class="radio-inline"><input type="radio" name="q3" value="2">2</label>
+			    			<label class="radio-inline"><input type="radio" name="q3" value="3">3</label>
+			    			<label class="radio-inline"><input type="radio" name="q3" value="4">4</label>
+			    			<label class="radio-inline"><input type="radio" name="q3" value="5">5</label>
+			    			<label class="radio-inline"><input type="radio" name="q3" value="6">6</label>
+			    			<label class="radio-inline"><input type="radio" name="q3" value="7">7</label>
+			    		</div>
+			    		<br>
+
+			    		<div class="form-group">
+			    			<h4>I am not the type of person who probes deeply into new situations or things. </h4><br>
+			    			<label class="radio-inline"><input type="radio" name="q4" value="1" required>1</label>
+			    			<label class="radio-inline"><input type="radio" name="q4" value="2">2</label>
+			    			<label class="radio-inline"><input type="radio" name="q4" value="3">3</label>
+			    			<label class="radio-inline"><input type="radio" name="q4" value="4">4</label>
+			    			<label class="radio-inline"><input type="radio" name="q4" value="5">5</label>
+			    			<label class="radio-inline"><input type="radio" name="q4" value="6">6</label>
+			    			<label class="radio-inline"><input type="radio" name="q4" value="7">7</label>
+			    		</div>
+			    		<br>
+			    		<div class="form-group">
+			    			<h4>When I am actively interested in something, it takes a great deal to interrupt me. </h4><br>
+			    			<label class="radio-inline"><input type="radio" name="q5" value="1" required>1</label>
+			    			<label class="radio-inline"><input type="radio" name="q5" value="2">2</label>
+			    			<label class="radio-inline"><input type="radio" name="q5" value="3">3</label>
+			    			<label class="radio-inline"><input type="radio" name="q5" value="4">4</label>
+			    			<label class="radio-inline"><input type="radio" name="q5" value="5">5</label>
+			    			<label class="radio-inline"><input type="radio" name="q5" value="6">6</label>
+			    			<label class="radio-inline"><input type="radio" name="q5" value="7">7</label>
+			    		</div>			    		
+			    		<br>
+			    		<div class="form-group">
+			    			<h4>My friends would describe me as someone who is "extremely intense" when in the middle of doing something. </h4><br>
+			    			<label class="radio-inline"><input type="radio" name="q6" value="1" required>1</label>
+			    			<label class="radio-inline"><input type="radio" name="q6" value="2">2</label>
+			    			<label class="radio-inline"><input type="radio" name="q6" value="3">3</label>
+			    			<label class="radio-inline"><input type="radio" name="q6" value="4">4</label>
+			    			<label class="radio-inline"><input type="radio" name="q6" value="5">5</label>
+			    			<label class="radio-inline"><input type="radio" name="q6" value="6">6</label>
+			    			<label class="radio-inline"><input type="radio" name="q6" value="7">7</label>
+			    		</div>	
+			    		<br>
+
+			    		<div class="form-group">
+			    			<h4>Everywhere I go, I am out looking for new things or experiences. </h4><br>
+			    			<label class="radio-inline"><input type="radio" name="q7" value="1" required>1</label>
+			    			<label class="radio-inline"><input type="radio" name="q7" value="2">2</label>
+			    			<label class="radio-inline"><input type="radio" name="q7" value="3">3</label>
+			    			<label class="radio-inline"><input type="radio" name="q7" value="4">4</label>
+			    			<label class="radio-inline"><input type="radio" name="q7" value="5">5</label>
+			    			<label class="radio-inline"><input type="radio" name="q7" value="6">6</label>
+			    			<label class="radio-inline"><input type="radio" name="q7" value="7">7</label>
+			    		</div>
+			    		<br>
+			    		<div class="form-group">
+			    		<input class="btn btn-lg btn-success btn-block" type="submit" value="Signup">
+			    		</div>			    		
+			    	
+			    	</fieldset>
+			    	</form>
+			      	
+			    </div>
+			</div>
+		</div>
+	</div>
+</div>
+
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script src="static/js/boostrap.min.js"</script>
+</body>
+</html>
