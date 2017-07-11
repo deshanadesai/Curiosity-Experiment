@@ -7,6 +7,7 @@ Author: Scott Rodkey - rodkeyscott@gmail.com
 Step-by-step tutorial: https://medium.com/@rodkey/deploying-a-flask-application-on-aws-a72daba6bb80
 '''
 import datetime
+from sqlalchemy import exc
 import csv
 import random
 import time
@@ -309,8 +310,13 @@ def page1(x=None):
 
 			record = students(session['username'],session['counter'],session['group'], session['curiosity'], session['certainty'], session['answer'], session['time_page_1'],session['time_page_2'],session['time_page_3'],session['time_page_4'],session['time_page_5'],session['time_page_6'],session['reward'])
 			# Enter session data into database.
-			db.session.add(record)
-			db.session.commit()
+			try:
+				db.session.add(record)
+				db.session.commit()
+			except exc.IntegrityError:
+				db.session.rollback()
+				print "Session rollback initiated"
+				print session['username'],session['counter'],session['group'], session['curiosity'], session['certainty'], session['answer'], session['time_page_1'],session['time_page_2'],session['time_page_3'],session['time_page_4'],session['time_page_5'],session['time_page_6'],session['reward']
 
 	# User is entering for the first time.
 	session['pointer_time'] = time.time()
@@ -429,8 +435,13 @@ def moreinfo(qn_number=None):
 			record = students(session['username'],session['counter'],session['group'], session['curiosity'], session['certainty'], session['answer'], session['time_page_1'],session['time_page_2'],session['time_page_3'],session['time_page_4'],session['time_page_5'],session['time_page_6'],session['reward'])
 			# Enter session data into database.
 			#print (session['username'],session['counter'],session['group'], session['curiosity'], session['certainty'], session['answer'], session['time_page_1'],session['time_page_2'],session['time_page_3'],session['time_page_4'],session['time_page_5'],session['time_page_6'],session['reward'])
-			db.session.add(record)
-			db.session.commit()
+			try:
+				db.session.add(record)
+				db.session.commit()
+			except:
+				db.session.rollback()
+				print "Session rollback initiated"
+				print session['username'],session['counter'],session['group'], session['curiosity'], session['certainty'], session['answer'], session['time_page_1'],session['time_page_2'],session['time_page_3'],session['time_page_4'],session['time_page_5'],session['time_page_6'],session['reward']				
 			return redirect(url_for('page1'))
 
 	return render_template('404.html'), 404
