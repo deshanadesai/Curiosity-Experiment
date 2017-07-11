@@ -1,0 +1,7 @@
+[1]
+sqlalchemy.exc.InternalError: (InternalError) (1075, u'Incorrect table definition; there can be only one auto column and it must be defined as a key') '\nCREATE TABLE students (\n\trecord_number TIMESTAMP, \n\tuid INTEGER NOT NULL AUTO_INCREMENT, \n\tquestion_number INTEGER, \n\t`group` INTEGER, \n\tcuriosity_rating INTEGER, \n\tcertainty_rating INTEGER, \n\tanswer VARCHAR(50), \n\ttime_page_1 FLOAT, \n\ttime_page_2 FLOAT, \n\ttime_page_3 FLOAT, \n\ttime_page_4 FLOAT, \n\ttime_page_5 FLOAT, \n\ttime_page_6 FLOAT, \n\treward INTEGER, \n\tPRIMARY KEY (record_number, uid)\n)\n\n' ()
+
+
+In application.py, table students:
+	record_num = db.Column('record_number', db.TIMESTAMP, primary_key = True, autoincrement = False)
+	uid = db.Column(db.Integer, primary_key = True, autoincrement = False)
