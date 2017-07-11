@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang = "en">
+   <head></head>
+   <body>
+      
+      <h3>
+         <a href = "{{ url_for('show_all') }}">Database - Flask 
+            SQLAlchemy Show All Records</a>
+      </h3>
+      
+      <hr/>
+          
+      <table>
+         <thead>
+            <tr>
+               <th>Record Number</th>
+               <th>User ID</th>
+               <th>Question Number</th>
+               <th>Group</th>
+               <th>Curiosity</th>
+               <th>Certainty</th>
+               <th>Reward</th>
+               <th>Answer</th>
+               <th>time spent</th>
+            </tr>
+         </thead>
+         
+         <tbody>
+            {% for student in students %}
+               <tr>
+                  <td>{{ student.record_num }}</td>
+                  <td>{{ student.uid }}</td>
+                  <td>{{ student.question_number }}</td>
+                  <td>{{ student.group }}</td>
+                  <td>{{ student.curiosity_rating}}</td>
+                  <td>{{ student.certainty_rating}}</td>
+                  <td>{{ student.reward }}</td> 
+                  <td>{{ student.answer }}</td>
+                  <td>{{ student.time_page_1 }}</td>
+               </tr>
+            {% endfor %}
+         </tbody>
+      </table>
+      
+   </body>
+</html>
